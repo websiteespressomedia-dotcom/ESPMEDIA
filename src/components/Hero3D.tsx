@@ -10,7 +10,6 @@ import {
   PointMaterial,
 } from "@react-three/drei";
 import * as THREE from "three";
-import { motion } from "framer-motion-3d";
 
 function CoreSphere() {
   const meshRef = useRef<THREE.Mesh>(null);
