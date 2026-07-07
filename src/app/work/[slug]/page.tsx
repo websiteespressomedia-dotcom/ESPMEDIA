@@ -7,7 +7,15 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
 // Content Strategy Data
-const CONTENT_PROJECTS = [
+type Project = {
+  id: number;
+  title: string;
+  client: string;
+  image?: string;
+  video?: string;
+};
+
+const CONTENT_PROJECTS: Project[] = [
   { id: 1, title: "GC TILES CHENNAI", client: "GC Tiles", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop" },
   { id: 2, title: "SHREEJI TILES", client: "Shreeji", image: "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=2000&auto=format&fit=crop" },
   { id: 3, title: "GC TILES HYDERABAD", client: "GC Tiles", image: "https://images.unsplash.com/photo-1600566753086-00f18efc2291?q=80&w=2000&auto=format&fit=crop" },
@@ -17,7 +25,7 @@ const CONTENT_PROJECTS = [
 ];
 
 // Branding Data
-const BRANDING_SERVICES = [
+const BRANDING_SERVICES: Project[] = [
   {
     id: 1,
     title: "BRAND IDENTITY DESIGNING",
@@ -51,7 +59,7 @@ const BRANDING_SERVICES = [
 ];
 
 // Commercial Data
-const COMMERCIAL_PROJECTS = [
+const COMMERCIAL_PROJECTS: Project[] = [
   {
     id: 1,
     title: "Cinematic Shoots",
@@ -79,7 +87,7 @@ const COMMERCIAL_PROJECTS = [
 ];
 
 // Web Development Data
-const WEB_PROJECTS = [
+const WEB_PROJECTS: Project[] = [
   {
     id: 1,
     title: "GC Tiles E-Commerce",
@@ -133,7 +141,7 @@ export default function CategoryPage() {
   const isCommercial = slug === "commercial-production";
   const isWebDev = slug === "web-development";
   
-  let projectsToRender = CONTENT_PROJECTS;
+  let projectsToRender: Project[] = CONTENT_PROJECTS;
   if (isBranding) projectsToRender = BRANDING_SERVICES;
   if (isCommercial) projectsToRender = COMMERCIAL_PROJECTS;
   if (isWebDev) projectsToRender = WEB_PROJECTS;
