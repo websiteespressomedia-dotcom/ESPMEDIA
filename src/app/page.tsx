@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Loader from "@/components/Loader";
 import Hero3D from "@/components/Hero3D";
-import CircularReveal from "@/components/CircularReveal";
+
 import Navbar from "@/components/Navbar";
 import Services from "@/components/Services";
 import FeaturedWork from "@/components/FeaturedWork";
@@ -39,107 +39,83 @@ export default function Home() {
       {/* Hero Section Container */}
       <div className="relative h-screen w-full">
         {/* Ambient Animated Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-white/5 blur-[120px] mix-blend-screen animate-pulse duration-[10s]" />
-          <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-white/5 blur-[150px] mix-blend-screen animate-pulse duration-[15s]" />
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          {/* Top Left Glow */}
+          <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-violet-600/20 blur-[150px] mix-blend-screen animate-pulse duration-[10s]" />
+          {/* Bottom Right Glow */}
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[150px] mix-blend-screen animate-pulse duration-[15s]" />
+          {/* Center Subtle Glow */}
+          <div className="absolute top-[30%] left-[30%] w-[30vw] h-[30vw] rounded-full bg-fuchsia-600/10 blur-[120px] mix-blend-screen" />
         </div>
 
         <Hero3D />
 
-        <section className="relative z-10 w-full h-screen flex px-8 md:px-16 lg:px-24 max-w-[1920px] mx-auto">
-          {/* Left Navigation */}
-          <div className="hidden lg:flex flex-col justify-center w-1/4 h-full">
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: loading ? 0 : 1, x: loading ? -50 : 0 }}
-              transition={{ duration: 1, delay: 0.5, staggerChildren: 0.1 }}
-              className="flex flex-col gap-6"
-            >
-              {SERVICES_LIST.map((service, index) => (
-                <motion.div
-                  key={service}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
-                  className="text-white/40 hover:text-white transition-colors duration-500 cursor-pointer text-sm tracking-[0.2em] uppercase group flex items-center gap-4"
+        <section className="relative z-10 w-full h-screen flex flex-col justify-center px-6 md:px-16 lg:px-32 max-w-[1920px] mx-auto pointer-events-none">
+          {/* Main Typography - Left Aligned for Maximum Readability */}
+          <div className="flex flex-col items-start justify-center gap-6 mt-[-10vh] max-w-3xl pointer-events-auto">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[8rem] font-serif leading-[1.05] tracking-tight text-white flex flex-col items-start drop-shadow-2xl">
+              <div className="overflow-hidden pb-2">
+                <motion.div 
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: loading ? "100%" : 0, opacity: loading ? 0 : 1 }}
+                  transition={{ duration: 1.2, delay: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
                 >
-                  <span className="w-8 h-[1px] bg-white/20 group-hover:bg-white group-hover:w-12 transition-all duration-500" />
-                  {service}
+                  360° Branding
                 </motion.div>
-              ))}
+              </div>
+              <div className="overflow-hidden pb-4">
+                <motion.div 
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: loading ? "100%" : 0, opacity: loading ? 0 : 1 }}
+                  transition={{ duration: 1.2, delay: 1.0, ease: [0.215, 0.61, 0.355, 1] }}
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-white via-violet-200 to-white/50 italic pr-4"
+                >
+                  & Marketing
+                </motion.div>
+              </div>
+            </h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: loading ? 0 : 1, y: loading ? 20 : 0 }}
+              transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
+              className="text-white/80 text-lg md:text-2xl leading-relaxed max-w-xl font-light tracking-wide drop-shadow-lg"
+            >
+              Helping visionary businesses grow with strategy, immersive design, and performance marketing.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: loading ? 0 : 1, y: loading ? 20 : 0 }}
+              transition={{ duration: 1, delay: 1.4, ease: "easeOut" }}
+              className="mt-8 flex flex-wrap gap-8 items-center"
+            >
+              <button className="group relative inline-flex items-center justify-center px-10 py-5 bg-white text-black rounded-full overflow-hidden transition-transform duration-300 hover:scale-105 pointer-events-auto shadow-[0_0_40px_rgba(139,92,246,0.3)]">
+                <div className="absolute inset-0 w-full h-full bg-violet-100 group-hover:scale-x-100 scale-x-0 origin-left transition-transform duration-500 ease-out" />
+                <span className="relative font-medium tracking-wider text-sm uppercase">Book Strategy Call</span>
+              </button>
+
+              <Link href="/work" className="group pointer-events-auto">
+                <div className="flex items-center gap-4 text-white/70 hover:text-white transition-colors duration-300">
+                  <div className="w-14 h-14 rounded-full border border-white/30 flex items-center justify-center group-hover:border-white/80 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                    <div className="w-2 h-2 bg-white rounded-full group-hover:scale-150 transition-transform duration-300" />
+                  </div>
+                  <span className="text-xs tracking-[0.2em] uppercase font-semibold">View Work</span>
+                </div>
+              </Link>
             </motion.div>
-          </div>
-
-          {/* Center Interactive Area over 3D Object */}
-          <Link 
-            href="/work"
-            className="w-full lg:w-2/4 h-full relative z-10 flex items-center justify-center group cursor-pointer"
-          >
-            <div className="w-32 h-32 rounded-full bg-white/5 backdrop-blur-xl border border-white/20 flex flex-col items-center justify-center text-white tracking-[0.2em] text-[10px] uppercase opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out pointer-events-none leading-relaxed">
-              <span>View</span>
-              <span>Our</span>
-              <span>Work</span>
-            </div>
-          </Link>
-
-          {/* Right Content */}
-          <div className="w-full lg:w-1/4 h-full flex flex-col justify-center">
-            <div className="flex flex-col gap-8">
-              <h1 className="text-5xl md:text-6xl xl:text-7xl font-serif leading-[1.1] tracking-tight text-white">
-                <div className="overflow-hidden pb-2">
-                  <motion.div 
-                    initial={{ y: "100%", rotate: 4, opacity: 0 }}
-                    animate={{ y: loading ? "100%" : 0, rotate: loading ? 4 : 0, opacity: loading ? 0 : 1 }}
-                    transition={{ duration: 1.2, delay: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
-                    className="origin-bottom-left"
-                  >
-                    360° Branding &
-                  </motion.div>
-                </div>
-                <div className="overflow-hidden pb-2">
-                  <motion.div 
-                    initial={{ y: "100%", rotate: 4, opacity: 0 }}
-                    animate={{ y: loading ? "100%" : 0, rotate: loading ? 4 : 0, opacity: loading ? 0 : 1 }}
-                    transition={{ duration: 1.2, delay: 1.0, ease: [0.215, 0.61, 0.355, 1] }}
-                    className="origin-bottom-left text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40"
-                  >
-                    Marketing Agency
-                  </motion.div>
-                </div>
-              </h1>
-              
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: loading ? 0 : 1, y: loading ? 20 : 0 }}
-                transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
-                className="text-white/60 text-lg leading-relaxed max-w-md font-light"
-              >
-                Helping businesses grow with strategy, design, websites and performance marketing.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: loading ? 0 : 1, y: loading ? 20 : 0 }}
-                transition={{ duration: 1, delay: 1.4, ease: "easeOut" }}
-              >
-                <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-black rounded-full overflow-hidden hover-target transition-transform duration-300 hover:scale-105">
-                  <div className="absolute inset-0 w-full h-full bg-white/50 group-hover:scale-x-100 scale-x-0 origin-left transition-transform duration-500 ease-out" />
-                  <span className="relative font-medium tracking-wide">Book Strategy Call</span>
-                </button>
-              </motion.div>
-            </div>
           </div>
         </section>
         
         {/* Scroll Indicator */}
         <motion.div 
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
+          className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: loading ? 0 : 1 }}
           transition={{ delay: 1.5, duration: 1 }}
         >
           <span className="text-xs uppercase tracking-[0.3em] text-white/40">Scroll</span>
-          <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+          <div className="w-[1px] h-8 bg-white/20 relative overflow-hidden">
             <motion.div
               className="absolute top-0 left-0 w-full h-full bg-white"
               animate={{ y: ["-100%", "100%"] }}
@@ -147,9 +123,30 @@ export default function Home() {
             />
           </div>
         </motion.div>
+
+        {/* Bottom Services Marquee */}
+        <div className="absolute bottom-0 w-full overflow-hidden border-t border-white/5 bg-black/40 backdrop-blur-lg py-4 pointer-events-auto z-20">
+          <motion.div 
+            className="flex whitespace-nowrap items-center w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
+          >
+            {[...SERVICES_LIST, ...SERVICES_LIST, ...SERVICES_LIST, ...SERVICES_LIST].map((service, index) => (
+              <div key={index} className="flex items-center">
+                <span className="text-white/70 hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase font-medium cursor-pointer">
+                  {service}
+                </span>
+                {/* Separator Icon */}
+                <svg className="w-4 h-4 mx-12 text-violet-400 opacity-60" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </div>
 
-      <CircularReveal />
+
       <AboutSection />
       <Services />
       <FeaturedWork />

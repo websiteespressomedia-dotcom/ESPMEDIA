@@ -13,15 +13,16 @@ type Project = {
   client: string;
   image?: string;
   video?: string;
+  slug?: string;
 };
 
 const CONTENT_PROJECTS: Project[] = [
-  { id: 1, title: "GC TILES CHENNAI", client: "GC Tiles", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop" },
-  { id: 2, title: "SHREEJI TILES", client: "Shreeji", image: "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=2000&auto=format&fit=crop" },
-  { id: 3, title: "GC TILES HYDERABAD", client: "GC Tiles", image: "https://images.unsplash.com/photo-1600566753086-00f18efc2291?q=80&w=2000&auto=format&fit=crop" },
-  { id: 4, title: "TILE BAZAAR", client: "Tile Bazaar", image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2000&auto=format&fit=crop" },
-  { id: 5, title: "VINAYAK TOYOTA", client: "Vinayak Toyota", image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000&auto=format&fit=crop" },
-  { id: 6, title: "TILE LAB", client: "Tile Lab", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2000&auto=format&fit=crop" },
+  { id: 1, title: "GC TILES CHENNAI", client: "GC Tiles", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop", slug: "gc-tiles-chennai" },
+  { id: 2, title: "SHREEJI TILES", client: "Shreeji", image: "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=2000&auto=format&fit=crop", slug: "shreeji-tiles" },
+  { id: 3, title: "GC TILES HYDERABAD", client: "GC Tiles", image: "https://images.unsplash.com/photo-1600566753086-00f18efc2291?q=80&w=2000&auto=format&fit=crop", slug: "gc-tiles-hyderabad" },
+  { id: 4, title: "TILE BAZAAR", client: "Tile Bazaar", image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2000&auto=format&fit=crop", slug: "tile-bazaar" },
+  { id: 5, title: "VINAYAK TOYOTA", client: "Vinayak Toyota", image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000&auto=format&fit=crop", slug: "vinayak-toyota" },
+  { id: 6, title: "TILE LAB", client: "Tile Lab", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2000&auto=format&fit=crop", slug: "tile-lab" },
 ];
 
 // Branding Data
@@ -59,32 +60,12 @@ const BRANDING_SERVICES: Project[] = [
 ];
 
 // Commercial Data
-const COMMERCIAL_PROJECTS: Project[] = [
-  {
-    id: 1,
-    title: "Cinematic Shoots",
-    client: "Production",
-    video: "https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4",
-  },
-  {
-    id: 2,
-    title: "Corporate Documentaries",
-    client: "Production",
-    video: "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
-  },
-  {
-    id: 3,
-    title: "Short Films",
-    client: "Production",
-    video: "https://videos.pexels.com/video-files/3206024/3206024-hd_1920_1080_25fps.mp4",
-  },
-  {
-    id: 4,
-    title: "Product Commercials",
-    client: "Production",
-    video: "https://videos.pexels.com/video-files/3015494/3015494-hd_1920_1080_24fps.mp4",
-  }
-];
+const COMMERCIAL_PROJECTS: Project[] = Array.from({ length: 12 }).map((_, i) => ({
+  id: i + 1,
+  title: `Commercial Reel ${String(i + 1).padStart(2, '0')}`,
+  client: "Production",
+  video: `/videos/${String(i + 1).padStart(2, '0')}.mp4`,
+}));
 
 // Web Development Data
 const WEB_PROJECTS: Project[] = [
@@ -184,52 +165,65 @@ export default function CategoryPage() {
       {/* Dynamic Content */}
       <section className="container mx-auto px-8 lg:px-16 mt-12 pb-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-24">
-          {projectsToRender.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: index % 2 === 0 ? 0 : 0.2 }}
-              className={`flex flex-col gap-6 group cursor-pointer ${
-                index % 2 !== 0 ? "md:mt-32" : ""
-              }`}
-            >
-              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden glass-dark">
-                <motion.div 
-                  className="absolute inset-[-10%] w-[120%] h-[120%]"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 1.5, ease: [0.215, 0.61, 0.355, 1] }}
-                >
+          {projectsToRender.map((project, index) => {
+            const cardContent = (
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: index % 2 === 0 ? 0 : 0.2 }}
+                className={`flex flex-col gap-6 group cursor-pointer ${
+                  index % 2 !== 0 ? "md:mt-32" : ""
+                }`}
+              >
+                <div className={`relative w-full rounded-2xl overflow-hidden glass-dark flex ${project.video ? '' : 'aspect-[4/5]'}`}>
                   {project.video ? (
-                    <video 
+                    <motion.video 
                       src={project.video} 
                       autoPlay loop muted playsInline
-                      className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 1.5, ease: [0.215, 0.61, 0.355, 1] }}
+                      className="w-full h-auto object-contain md:object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 origin-center"
                     />
                   ) : (
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
-                    />
+                    <motion.div 
+                      className="absolute inset-[-10%] w-[120%] h-[120%]"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 1.5, ease: [0.215, 0.61, 0.355, 1] }}
+                    >
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
+                      />
+                    </motion.div>
                   )}
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-50 group-hover:opacity-20 transition-opacity duration-700" />
-              </div>
-              
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-4 text-xs font-semibold tracking-[0.2em] uppercase text-white/50">
-                  <span>{project.client}</span>
-                  <span className="w-8 h-[1px] bg-white/20" />
-                  <span>0{index + 1}</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-50 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none" />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-serif text-white group-hover:text-[#d9b15c] transition-colors duration-500">
-                  {project.title}
-                </h3>
-              </div>
-            </motion.div>
-          ))}
+                
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-4 text-xs font-semibold tracking-[0.2em] uppercase text-white/50">
+                    <span>{project.client}</span>
+                    <span className="w-8 h-[1px] bg-white/20" />
+                    <span>0{index + 1}</span>
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-serif text-white group-hover:text-[#d9b15c] transition-colors duration-500">
+                    {project.title}
+                  </h3>
+                </div>
+              </motion.div>
+            );
+
+            if (project.slug) {
+              return (
+                <Link key={project.id} href={`/project/${project.slug}`} className="block">
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return <div key={project.id}>{cardContent}</div>;
+          })}
         </div>
       </section>
     </main>

@@ -44,7 +44,7 @@ export default function CircularReveal() {
       // 3. MAIN ANIMATION PHASE (Duration: 4)
       // Both text wrappers scroll horizontally from right to left
       .to([baseTextWrapperRef.current, circleTextWrapperRef.current], {
-        x: "-50vw",
+        x: "-100%",
         ease: "none",
         duration: 4
       }, "scrollPhase")

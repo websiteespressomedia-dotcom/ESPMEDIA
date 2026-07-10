@@ -17,6 +17,9 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Espresso Media | Premium Digital Marketing Agency",
   description: "We Build Digital Brands That Scale. Helping businesses grow with strategy, design, websites and performance marketing.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

@@ -1,17 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Link from "next/link";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
+  const isInView = useInView(textRef, { once: true, margin: "-10% 0px" });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -21,32 +17,28 @@ export default function AboutSection() {
   const imgScale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [0, -150]);
 
-  useEffect(() => {
-    if (!textRef.current) return;
-
-    const split = new SplitType(textRef.current, { types: "lines,words", lineClass: "overflow-hidden pb-4" });
-    
-    gsap.fromTo(
-      split.words,
-      { 
-        y: "100%", 
+  // Animation variants for the text
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
       },
-      {
-        y: "0%",
-        stagger: 0.05,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: textRef.current,
-          start: "top 85%",
-        }
-      }
-    );
+    },
+  };
 
-    return () => {
-      split.revert();
-    };
-  }, []);
+  const lineVariants = {
+    hidden: { y: "120%", opacity: 0, rotate: 2 },
+    visible: { 
+      y: "0%", 
+      opacity: 1, 
+      rotate: 0,
+      transition: { 
+        duration: 1.2, 
+        ease: [0.215, 0.61, 0.355, 1] 
+      } 
+    },
+  };
 
   return (
     <section ref={containerRef} id="about" className="relative bg-black text-white py-32 md:py-48 overflow-hidden border-t border-white/10 selection:bg-[#d9b15c] selection:text-black">
@@ -63,12 +55,30 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Massive Typography */}
-        <h3 ref={textRef} className="text-[12vw] md:text-[9vw] font-serif leading-[0.9] tracking-tighter uppercase">
-          We don't follow <br />
-          <span className="text-[#d9b15c] italic pr-8">trends.</span><br />
-          We create them.
-        </h3>
+        {/* Massive Typography - Animated */}
+        <motion.h3 
+          ref={textRef}
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-[12vw] md:text-[9vw] font-serif leading-[0.9] tracking-tighter uppercase"
+        >
+          <div className="overflow-hidden pb-2 md:pb-6">
+            <motion.div variants={lineVariants} className="origin-bottom-left">
+              We don't follow
+            </motion.div>
+          </div>
+          <div className="overflow-hidden pb-2 md:pb-6">
+            <motion.div variants={lineVariants} className="origin-bottom-left flex items-center">
+              <span className="text-[#d9b15c] italic pr-8">trends.</span>
+            </motion.div>
+          </div>
+          <div className="overflow-hidden pb-2 md:pb-6">
+            <motion.div variants={lineVariants} className="origin-bottom-left">
+              We create them.
+            </motion.div>
+          </div>
+        </motion.h3>
         
         {/* Visual & Text Grid */}
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">

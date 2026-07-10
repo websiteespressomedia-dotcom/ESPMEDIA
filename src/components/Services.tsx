@@ -40,7 +40,7 @@ export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative py-32 bg-black text-white min-h-screen flex items-center">
+    <section id="services" className="relative py-32 bg-black text-white min-h-screen flex items-center">
       {/* Background Image Transition */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <AnimatePresence>
